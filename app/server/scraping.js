@@ -78,10 +78,12 @@ async function train () {
 
   const result = {
     datetime,
-    yamanote,
-    keihinTohoku,
-    tokaido,
-    uenoTokyo
+    trains: [
+      yamanote,
+      keihinTohoku,
+      tokaido,
+      uenoTokyo
+    ]
   }
 
   console.log(result)

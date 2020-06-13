@@ -5,24 +5,29 @@
       <h1 class="title">
         nuxt-puppeteer-app
       </h1>
-      <h2 class="subtitle">
-        My ultimate Nuxt.js project
-      </h2>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey"
-        >
-          GitHub
-        </a>
+      <div class="main">
+        <h2>鉄道運行状況</h2>
+        <p class="time">更新日時：{{ data.datetime }}</p>
+        <table border="1">
+          <thead>
+            <tr>
+              <th>路線名</th>
+              <th>運行状況</th>
+              <th>備考</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              v-for="train in data.trains"
+              :key="train.yahooId"
+            >
+              <td>{{ train.name }}</td>
+              <td>{{ train.status }}</td>
+              <td>{{ train.desc }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <button　@click="reload">更新</button>
       </div>
     </div>
   </div>
@@ -32,8 +37,22 @@
 import Logo from '~/components/Logo.vue'
 
 export default {
+  async asyncData({ $axios }) {
+    const data = await $axios.$get('/api/scraping')
+    return { data }
+  },
   components: {
     Logo
+  },
+
+  data: () => ({
+    data: []
+  }),
+
+  methods: {
+    reload() {
+      location.reload()
+    }
   }
 }
 </script>
@@ -53,20 +72,26 @@ export default {
     'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   display: block;
   font-weight: 300;
-  font-size: 100px;
+  font-size: 50px;
   color: #35495e;
   letter-spacing: 1px;
 }
 
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
+h2 {
+  padding: 10px 0;
+}
+.time {
+  text-align: right;
+}
+table {
+  border-collapse: collapse;
+}
+td {
+  padding: 10px;
+}
+button {
+  margin-top: 20px;
+  width: 100%;
 }
 
-.links {
-  padding-top: 15px;
-}
 </style>

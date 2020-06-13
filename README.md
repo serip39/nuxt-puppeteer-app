@@ -30,5 +30,6 @@ $ docker-compose build
 $ docker-compose up -d
 ```
 
-You can access the folloing.
+You can access the following.
+
 http://localhost:5000/
